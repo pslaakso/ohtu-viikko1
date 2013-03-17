@@ -1,12 +1,6 @@
 package ohtu.ohtuvarasto;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,7 +11,7 @@ public class VarastoTest {
 
     @Before
     public void setUp() {
-        varasto = new Varasto(10);
+        varasto = new Varasto(10); // tilavuus on 10
     }
 
     @Test
@@ -39,6 +33,18 @@ public class VarastoTest {
     }
 
     @Test
+    public void lisaysYliTilavuuden() {
+        varasto.lisaaVarastoon(15);
+        assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+	@Test
+	public void negLisays() {
+		varasto.lisaaVarastoon(-2);
+		assertTrue(varasto.getSaldo()==0);
+	}
+
+	@Test
     public void lisaysLisaaPienentaaVapaataTilaa() {
         varasto.lisaaVarastoon(8);
 
@@ -53,6 +59,13 @@ public class VarastoTest {
         double saatuMaara = varasto.otaVarastosta(2);
 
         assertEquals(2, saatuMaara, vertailuTarkkuus);
+    }
+
+    @Test
+    public void ottaminenYliSaldonTyhjentaaVaraston() {
+        varasto.lisaaVarastoon(5);
+        varasto.otaVarastosta(234);
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
     }
 
     @Test
@@ -75,4 +88,49 @@ public class VarastoTest {
         varasto = new Varasto(-1,-1);
         varasto.toString();
     }
+
+	@Test
+	public void negKonstr() {
+		varasto = new Varasto(-2);
+		assertEquals(0, varasto.getTilavuus(), vertailuTarkkuus);
+	}
+
+	@Test
+	public void negAlkuSaldo() {
+		varasto = new Varasto(15, -3);
+		assertTrue(varasto.getSaldo() == 0);
+	}
+
+	@Test
+	public void suurempiAlkuSaldo() {
+		varasto = new Varasto(5, 10);
+		assertTrue("Saldo vituilleen", varasto.getTilavuus()==5);
+	}
+
+	@Test
+	public void lisaaTyhjaan() {
+		varasto = new Varasto(0, 0);
+		varasto.lisaaVarastoon(3);
+		assertTrue(varasto.getTilavuus() == 0 && varasto.getSaldo() == 0);
+	}
+
+	@Test
+	public void luoTaysi() {
+		varasto = new Varasto(12, 12);
+
+		assertTrue(varasto.paljonkoMahtuu() == 0 && varasto.getTilavuus()==12);
+	}
+
+	@Test
+	public void testTilavuus() {
+		assertTrue(varasto.getTilavuus()==10);
+	}
+
+	@Test
+	public void otaNegatiivinen() {
+		varasto.lisaaVarastoon(5);
+		varasto.otaVarastosta(-3);
+		assertTrue(varasto.getSaldo()==5);
+	}
+
 }
