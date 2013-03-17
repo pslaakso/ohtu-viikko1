@@ -133,4 +133,9 @@ public class VarastoTest {
 		assertTrue(varasto.getSaldo()==5);
 	}
 
+	@Test
+	public void fubarTest() {
+		assertTrue("An extra test to see if jenkins starts test when commited.", true);
+	}
+
 }
