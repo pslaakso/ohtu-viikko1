@@ -123,7 +123,7 @@ public class VarastoTest {
 
 	@Test
 	public void testTilavuus() {
-		assertTrue(varasto.getTilavuus()==12); // RIKOTTU
+		assertTrue(varasto.getTilavuus()==10);
 	}
 
 	@Test
